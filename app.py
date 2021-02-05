@@ -45,7 +45,8 @@ app.config["JSON_SORT_KEYS"] = False
 @app.route('/', methods=['POST'])
 def classify_utterance():
     body = request.json
-    utterance = body['utterance']
+    # get utterance from request and remove whitespace
+    utterance = body['utterance'].strip()
     category = classify(utterance)
 
     return jsonify({
