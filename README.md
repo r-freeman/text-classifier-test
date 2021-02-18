@@ -62,7 +62,7 @@ try {
     const response = await request.json();
     console.log(response);
 } catch (err) {
-    console.err(err);
+    console.error(err);
 }
 ````
 
