@@ -52,7 +52,7 @@ above. Here is an example request using ``node-fetch``.
 ````javascript
 try {
     const request = await fetch('http://localhost:5000/classify', {
-        method: 'GET',
+        method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: {
             utterance: "i need help talking to a human agent" 
