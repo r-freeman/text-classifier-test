@@ -1,8 +1,8 @@
-# Multi-Class Text Classification
+# Multi-Class Text Classifier
 
-This is a multi-class text classification machine learning algorithm that was trained on a [customer support dataset](https://blog.bitext.com/free-customer-support-dataset) 
-which contained customer utterances and associated problem type categories. It should be able to make reasonably accurate 
-predictions on unseen customer utterances and categorise the complaint as one of the following categories.
+This is a multi-class text classifier that was trained on a [customer support dataset](https://blog.bitext.com/free-customer-support-dataset) 
+which contained customer utterances and associated categories. It should be able to make reasonably accurate 
+predictions on unseen customer utterances and categorise the utterance as one of the following categories.
 
 * FEEDBACK
 * ORDER
@@ -37,7 +37,39 @@ source venv/Scripts/activate
 pip install -r requirements.txt
 ````
 
-***Run main.py***
+***Run app.py***
 ````shell script
-python main.py
+python app.py
+````
+
+## Usage
+
+This Flask application provides a single REST endpoint for classifying customer utterances into one of the eleven categories 
+above. Here is an example request using ``node-fetch``.
+
+### Request
+
+````javascript
+try {
+    const request = await fetch('http://localhost:5000/classify', {
+        method: 'GET',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: {
+            utterance: "i need help talking to a human agent" 
+        }
+    });
+
+    const response = await request.json();
+    console.log(response);
+} catch (err) {
+    console.err(err);
+}
+````
+
+### Response
+````json
+{
+  "utterance": "i need help talking to a human agent",
+  "category": "CONTACT"
+}
 ````
