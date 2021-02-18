@@ -44,7 +44,7 @@ app.config["DEBUG"] = True
 app.config["JSON_SORT_KEYS"] = False
 
 
-@app.route('/classify', methods=['POST'])
+@app.route('/classify', methods=['GET'])
 def classify_utterance():
     try:
         body = request.get_json()
