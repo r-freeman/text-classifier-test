@@ -3,6 +3,7 @@ import re
 import nltk
 from joblib import load
 from flask import Flask, request, jsonify
+from werkzeug.exceptions import BadRequest
 
 nltk.download('stopwords')
 stopwords = nltk.corpus.stopwords.words('english')
@@ -37,22 +38,37 @@ f = 'models/logreg.joblib'
 # use joblib to load the model
 classifier = load(f)
 
+# initialise the Flask app
 app = Flask(__name__)
 app.config["DEBUG"] = True
 app.config["JSON_SORT_KEYS"] = False
 
 
-@app.route('/', methods=['POST'])
+@app.route('/classify', methods=['POST'])
 def classify_utterance():
-    body = request.json
-    # get utterance from request and remove whitespace
-    utterance = body['utterance'].strip()
-    category = classify(utterance)
+    try:
+        body = request.get_json()
+        utterance = body['utterance'].strip()
+        category = classify(utterance)
 
-    return jsonify({
-        "utterance": utterance,
-        "category": category
-    }), 200
+        return jsonify({
+            "utterance": utterance,
+            "category": category
+        }), 200
+
+    except BadRequest:
+        return jsonify({
+            "error": "invalid json object"
+        }), 500
+
+    except KeyError:
+        return jsonify({
+            "error": "utterance is required"
+        }), 422
+    except TypeError:
+        return jsonify({
+            "error": "utterance is required"
+        }), 422
 
 
 app.run()
