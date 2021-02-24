@@ -60,7 +60,6 @@ def classify_utterance():
         return jsonify({
             "error": "invalid json object"
         }), 500
-
     except KeyError:
         return jsonify({
             "error": "utterance is required"
@@ -71,4 +70,4 @@ def classify_utterance():
         }), 422
 
 
-app.run()
+app.run(host='0.0.0.0', port=5001)
